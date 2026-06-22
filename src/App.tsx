@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { GuidePage } from './components/GuidePage'
 import { QuizPage } from './components/QuizPage'
+import { Logo } from './components/Logo'
 import { t } from './i18n'
 import type { Lang } from './i18n'
 
@@ -13,7 +14,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="topbar">
-        <h1>{t('appTitle', lang)}</h1>
+        <Logo />
         <div className="topbar-right">
           <nav className="page-nav">
             <button
