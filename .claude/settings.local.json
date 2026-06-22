@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Bash(npm config *)",
+      "Bash(npm run *)",
+      "Bash(npx vite *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:4317/)",
+      "Bash(curl -s http://localhost:4317/)",
+      "Bash(kill %1)",
+      "Skill(run)",
+      "Bash(curl -s -o /dev/null -w \"dev http=%{http_code}\\\\n\" http://localhost:4318/)",
+      "Bash(command -v chromium-cli)",
+      "Bash(command -v chromium)",
+      "Bash(curl -s \"https://api.iconify.design/mdi/music-clef-treble.svg\")",
+      "Bash(nohup npx vite --port 4319)",
+      "Bash(curl -s -o /dev/null -w \"dev http=%{http_code}\\\\n\" http://localhost:4319/)",
+      "Bash(curl -s -o /dev/null -w \"dev http=%{http_code}\\\\n\" http://localhost:4320/)",
+      "Bash(node -e \"console.log\\(require.resolve\\('puppeteer-core'\\)\\)\")",
+      "Bash(sed -i '' \"s|import puppeteer from '.*puppeteer-core.js'|import puppeteer from 'puppeteer-core'|\" /tmp/drive.mjs)",
+      "Bash(node ./_drive.mjs)",
+      "Bash(npm uninstall *)",
+      "Bash(curl -s \"https://api.iconify.design/search?query=clef&limit=50\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('\\\\n'.join\\(d.get\\('icons',[]\\)\\)\\)\")",
+      "Bash(curl -s \"https://api.iconify.design/tabler/clef.svg\")",
+      "Bash(curl -s \"https://api.iconify.design/streamline-sharp/music-note-trebble-clef.svg\")",
+      "Bash(npm install *)",
+      "Bash(curl -s -o /dev/null -w \"dev http=%{http_code}\\\\n\" http://localhost:4323/)",
+      "Bash(curl -s \"https://api.iconify.design/game-icons/g-clef.svg\")",
+      "Bash(curl -s \"https://api.iconify.design/streamline-plump/music-note-trebble-clef-solid.svg\")",
+      "Bash(curl *)",
+      "Bash(python3 -c \"import sys,json;print\\('\\\\n'.join\\(json.load\\(sys.stdin\\).get\\('icons',[]\\)\\)\\)\")"
+    ]
+  }
+}
