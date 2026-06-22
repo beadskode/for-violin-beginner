@@ -33,6 +33,25 @@ body {
   flex: 0 0 auto;
 }
 .topbar h1 { font-size: 18px; margin: 0; }
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+.page-nav { display: flex; gap: 4px; }
+.nav-btn {
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.15s;
+}
+.nav-btn:hover { border-color: #b9b9b9; }
+.nav-btn.active {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
 .lang-toggle {
   border: 1px solid var(--border);
   background: #fff;
@@ -152,6 +171,61 @@ h3 { font-size: 12px; color: #666; margin: 0 0 6px; font-weight: 600; }
 }
 .staff-wrap svg { height: 100%; width: auto; max-width: 100%; }
 
+/* === 퀴즈 페이지 === */
+.quiz-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+.quiz-info .hint { font-size: 12px; color: #888; margin: 4px 0 0; }
+.quiz-score {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+.score-label { font-size: 12px; color: #888; }
+.score-value { font-size: 18px; font-weight: 700; color: var(--accent); }
+.reset-btn {
+  padding: 4px 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  color: #666;
+}
+.reset-btn:hover { border-color: #b9b9b9; }
+
+.quiz-feedback {
+  text-align: center;
+  padding: 6px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.quiz-feedback.correct { background: #dcfce7; color: #16a34a; }
+.quiz-feedback.wrong { background: #fee2e2; color: #dc2626; }
+
+.quiz-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  gap: var(--gap);
+}
+.quiz-staff-wrap {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 160px;
+}
+.quiz-staff-wrap svg { height: 140px; width: auto; }
+.quiz-body .fb-wrap { flex: 1 1 auto; }
+
 /* === 모바일: 세로 스택 === */
 @media (max-width: 720px) {
   .app { height: auto; min-height: 100%; }
@@ -188,4 +262,8 @@ h3 { font-size: 12px; color: #666; margin: 0 0 6px; font-weight: 600; }
   .key-list.open {
     display: block;
   }
+
+  .quiz-body { flex-direction: column; }
+  .quiz-staff-wrap { width: 100%; }
+  .quiz-staff-wrap svg { height: 120px; }
 }

@@ -20,14 +20,21 @@ function stringIndex(name: string): number {
   return STRINGS.findIndex((s) => s.name === name)
 }
 
+export interface FeedbackState {
+  picked: FingerPoint
+  answer: FingerPoint
+  result: 'correct' | 'wrong'
+}
+
 interface Props {
   selectedKey: KeyGroup
   position: Position
   onPick: (fp: FingerPoint) => void
   active: FingerPoint | null
+  feedback?: FeedbackState | null
 }
 
-export function Fingerboard({ selectedKey, position, onPick, active }: Props) {
+export function Fingerboard({ selectedKey, position, onPick, active, feedback }: Props) {
   const prefer = preferFor(selectedKey)
   const points = useMemo(() => fingerPointsForPosition(position), [position])
 
@@ -61,22 +68,36 @@ export function Fingerboard({ selectedKey, position, onPick, active }: Props) {
         const sp = spell(fp.midi, prefer)
         const color = FINGER_COLOR[fp.finger]
         const isPlaying = active?.string === fp.string && active?.offset === fp.offset
+
+        const isFbPicked = feedback && feedback.picked.string === fp.string && feedback.picked.offset === fp.offset
+        const isFbAnswer = feedback && feedback.result === 'wrong' && feedback.answer.string === fp.string && feedback.answer.offset === fp.offset
+        let fill = isPlaying ? color : '#fff'
+        let strokeColor = color
+        if (isFbPicked) {
+          fill = feedback.result === 'correct' ? '#16a34a' : '#dc2626'
+          strokeColor = fill
+        } else if (isFbAnswer) {
+          fill = '#16a34a'
+          strokeColor = '#16a34a'
+        }
+        const textFill = (isPlaying || isFbPicked || isFbAnswer) ? '#fff' : '#222'
+
         return (
           <g
             key={`${fp.string}-${fp.offset}`}
             opacity={inScale ? 1 : 0.22}
-            style={{ cursor: inScale ? 'pointer' : 'default' }}
-            onClick={inScale ? () => onPick(fp) : undefined}
+            style={{ cursor: inScale && !feedback ? 'pointer' : 'default' }}
+            onClick={inScale && !feedback ? () => onPick(fp) : undefined}
           >
-            <circle cx={cx} cy={cy} r={R} fill={isPlaying ? color : '#fff'} stroke={color} strokeWidth={3} />
+            <circle cx={cx} cy={cy} r={R} fill={fill} stroke={strokeColor} strokeWidth={3} />
             <circle cx={cx} cy={cy - R + 6} r={7} fill={color} />
             <text x={cx} y={cy - R + 9} textAnchor="middle" fontSize={9} fontWeight={700} fill="#fff">
               {fp.finger}
             </text>
-            <text x={cx} y={cy + 3} textAnchor="middle" fontSize={16} fontWeight={700} fill={isPlaying ? '#fff' : '#222'}>
+            <text x={cx} y={cy + 3} textAnchor="middle" fontSize={16} fontWeight={700} fill={textFill}>
               {koName(sp)}
             </text>
-            <text x={cx} y={cy + 15} textAnchor="middle" fontSize={9} fill={isPlaying ? '#fff' : '#777'}>
+            <text x={cx} y={cy + 15} textAnchor="middle" fontSize={9} fill={textFill === '#fff' ? '#eee' : '#777'}>
               {enName(sp)}
             </text>
           </g>
