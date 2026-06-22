@@ -100,24 +100,25 @@ export function Staff({ width, height, sign = 'none', count = 0, note, vbY = 0 }
       ))}
 
       {/* 음표 */}
-      {note && (
-        <g>
-          {noteAcc && (
-            <text x={noteX - 13} y={yOf(diatonicIndex(note)) + 4} fontSize={15} textAnchor="middle">
-              {noteAcc}
-            </text>
-          )}
-          <ellipse cx={noteX} cy={yOf(diatonicIndex(note))} rx={5.5} ry={4} fill="#111" transform={`rotate(-20 ${noteX} ${yOf(diatonicIndex(note))})`} />
-          <line
-            x1={noteX + 5}
-            y1={yOf(diatonicIndex(note)) - 1}
-            x2={noteX + 5}
-            y2={yOf(diatonicIndex(note)) - 32}
-            stroke="#111"
-            strokeWidth={1.4}
-          />
-        </g>
-      )}
+      {note && (() => {
+        const idx = diatonicIndex(note)
+        const ny = yOf(idx)
+        const stemUp = idx < 34
+        const sx = stemUp ? noteX + 5 : noteX - 5
+        const sy1 = stemUp ? ny - 1 : ny + 1
+        const sy2 = stemUp ? ny - 32 : ny + 32
+        return (
+          <g>
+            {noteAcc && (
+              <text x={noteX - 13} y={ny + 4} fontSize={15} textAnchor="middle">
+                {noteAcc}
+              </text>
+            )}
+            <ellipse cx={noteX} cy={ny} rx={5.5} ry={4} fill="#111" transform={`rotate(-20 ${noteX} ${ny})`} />
+            <line x1={sx} y1={sy1} x2={sx} y2={sy2} stroke="#111" strokeWidth={1.4} />
+          </g>
+        )
+      })()}
     </svg>
   )
 }
