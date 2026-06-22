@@ -3,11 +3,11 @@
 export type Accidental = 'sharp' | 'flat' | 'none'
 
 // 영어 음이름(자연음) 인덱스: C=0 ... B=6
-export const LETTERS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'] as const
+const LETTERS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'] as const
 export type Letter = (typeof LETTERS)[number]
 
 // 한글 음이름(고정도법)
-export const KO_SYLLABLE: Record<Letter, string> = {
+const KO_SYLLABLE: Record<Letter, string> = {
   C: '도', D: '레', E: '미', F: '파', G: '솔', A: '라', B: '시',
 }
 
@@ -29,7 +29,7 @@ const FLAT_SPELL: { letter: Letter; acc: Accidental }[] = [
   { letter: 'B', acc: 'flat' }, { letter: 'B', acc: 'none' },
 ]
 
-export const ACC_GLYPH: Record<Accidental, string> = {
+const ACC_GLYPH: Record<Accidental, string> = {
   sharp: '♯', flat: '♭', none: '',
 }
 
@@ -38,7 +38,7 @@ const SHARP_ORDER: Letter[] = ['F', 'C', 'G', 'D', 'A', 'E', 'B']
 const FLAT_ORDER: Letter[] = ['B', 'E', 'A', 'D', 'G', 'C', 'F']
 
 // 해당 조표가 특정 음이름(letter)에 적용하는 변화표
-export function keySigAcc(letter: Letter, sign: 'sharp' | 'flat' | 'none', count: number): Accidental {
+function keySigAcc(letter: Letter, sign: 'sharp' | 'flat' | 'none', count: number): Accidental {
   if (sign === 'sharp') return SHARP_ORDER.slice(0, count).includes(letter) ? 'sharp' : 'none'
   if (sign === 'flat') return FLAT_ORDER.slice(0, count).includes(letter) ? 'flat' : 'none'
   return 'none'
@@ -97,8 +97,23 @@ export const STRINGS: StringDef[] = [
 ]
 
 // 반음 오프셋(0~7) → 손가락 번호. 각 손가락의 낮은/높은 위치 포함.
-export const FINGER_BY_OFFSET = [0, 1, 1, 2, 2, 3, 3, 4]
-export const MAX_OFFSET = 7
+const FINGER_BY_OFFSET = [0, 1, 1, 2, 2, 3, 3, 4]
+const FINGER_NO_OPEN = [1, 1, 2, 2, 3, 3, 4]
+
+export interface Position {
+  id: number
+  labelKo: string
+  labelEn: string
+  shift: number
+  includeOpen: boolean
+}
+
+export const POSITIONS: Position[] = [
+  { id: 1, labelKo: '1포지션', labelEn: '1st', shift: 0, includeOpen: true },
+  { id: 2, labelKo: '2포지션', labelEn: '2nd', shift: 2, includeOpen: false },
+  { id: 3, labelKo: '3포지션', labelEn: '3rd', shift: 4, includeOpen: false },
+  { id: 4, labelKo: '4포지션', labelEn: '4th', shift: 6, includeOpen: false },
+]
 
 export interface FingerPoint {
   string: string
@@ -108,18 +123,21 @@ export interface FingerPoint {
   pc: number
 }
 
-export const FINGER_POINTS: FingerPoint[] = STRINGS.flatMap((s) =>
-  Array.from({ length: MAX_OFFSET + 1 }, (_, offset) => {
-    const midi = s.openMidi + offset
-    return {
-      string: s.name,
-      offset,
-      finger: FINGER_BY_OFFSET[offset],
-      midi,
-      pc: ((midi % 12) + 12) % 12,
+export function fingerPointsForPosition(pos: Position): FingerPoint[] {
+  return STRINGS.flatMap((s) => {
+    if (pos.includeOpen) {
+      return Array.from({ length: 8 }, (_, i) => {
+        const midi = s.openMidi + i
+        return { string: s.name, offset: i, finger: FINGER_BY_OFFSET[i], midi, pc: ((midi % 12) + 12) % 12 }
+      })
     }
+    return FINGER_NO_OPEN.map((finger, i) => {
+      const offset = pos.shift + 1 + i
+      const midi = s.openMidi + offset
+      return { string: s.name, offset, finger, midi, pc: ((midi % 12) + 12) % 12 }
+    })
   })
-)
+}
 
 // 손가락 색상 (색 + 숫자 병기)
 export const FINGER_COLOR: Record<number, string> = {

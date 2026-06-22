@@ -48,7 +48,7 @@ const SEEDS: Seed[] = [
   { sign: 'flat', count: 4, tonicPc: 8, majorKo: '내림가장조', majorEn: 'A♭ Major', minorKo: '바단조', minorEn: 'F minor' },
 ]
 
-export const KEY_GROUPS: KeyGroup[] = SEEDS.map((s) => ({
+const KEY_GROUPS: KeyGroup[] = SEEDS.map((s) => ({
   id: `${s.sign}${s.count}`,
   sign: s.sign,
   count: s.count,

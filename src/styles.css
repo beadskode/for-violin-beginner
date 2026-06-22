@@ -43,6 +43,31 @@ body {
 h2 { font-size: 15px; margin: 0 0 8px; }
 h3 { font-size: 12px; color: #666; margin: 0 0 6px; font-weight: 600; }
 
+/* === 포지션 탭 === */
+.pos-tabs {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+.pos-tab {
+  flex: 1;
+  padding: 8px 0;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+  transition: all 0.15s;
+}
+.pos-tab:hover { border-color: #b9b9b9; }
+.pos-tab.active {
+  background: #2f6fed;
+  color: #fff;
+  border-color: #2f6fed;
+}
+
 /* === 1행 2컬럼 레이아웃 === */
 .layout {
   flex: 1 1 auto;

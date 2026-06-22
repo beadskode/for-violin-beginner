@@ -86,11 +86,11 @@ export function Staff({ width, height, sign = 'none', count = 0, note, vbY = 0 }
 
 
       {/* 조표 */}
-      {accs.map((idx, i) =>
+      {accs.map((diatonic, i) =>
         sign === 'flat' ? (
-          <Flat key={i} x={accStartX + i * ACC_GAP} y={yOf(idx)} />
+          <Flat key={diatonic} x={accStartX + i * ACC_GAP} y={yOf(diatonic)} />
         ) : (
-          <Sharp key={i} x={accStartX + i * ACC_GAP} y={yOf(idx)} />
+          <Sharp key={diatonic} x={accStartX + i * ACC_GAP} y={yOf(diatonic)} />
         )
       )}
 

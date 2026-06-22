@@ -1,7 +1,8 @@
 export type Lang = 'ko' | 'en'
 
-export const STR = {
-  appTitle: { ko: '바이올린 1포지션 운지 안내', en: 'Violin 1st Position Guide' },
+const STR = {
+  appTitle: { ko: '바이올린 운지 안내', en: 'Violin Fingering Guide' },
+  position: { ko: '포지션', en: 'Position' },
   keySection: { ko: '조 선택', en: 'Key' },
   sharpKeys: { ko: '샵 (♯) 조', en: 'Sharp keys' },
   naturalKeys: { ko: '다장조 / 가단조', en: 'No accidentals' },
