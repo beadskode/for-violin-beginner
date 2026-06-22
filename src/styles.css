@@ -89,11 +89,15 @@ h3 { font-size: 12px; color: #666; margin: 0 0 6px; font-weight: 600; }
   flex-direction: column;
 }
 
-/* 좌측: 조 선택 (버튼 많아 스크롤 허용) */
+/* 좌측: 조 선택 */
 .col-left .key-selector {
   overflow-y: auto;
   min-height: 0;
 }
+.key-summary {
+  display: none;
+}
+.key-list { display: contents; }
 .key-section { margin-bottom: 12px; }
 .key-grid {
   display: grid;
@@ -157,4 +161,31 @@ h3 { font-size: 12px; color: #666; margin: 0 0 6px; font-weight: 600; }
   .col-left .key-selector { overflow: visible; }
   .key-grid { grid-template-columns: repeat(2, 1fr); }
   .fb-wrap { height: 60vh; }
+
+  .key-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--accent);
+    background: var(--accent-light);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .key-chevron {
+    transition: transform 0.2s;
+    font-size: 16px;
+  }
+  .key-chevron.open { transform: rotate(180deg); }
+  .key-list {
+    display: none;
+  }
+  .key-list.open {
+    display: block;
+  }
 }

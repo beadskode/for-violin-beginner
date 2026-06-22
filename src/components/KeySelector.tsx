@@ -1,4 +1,5 @@
-import { SHARP_KEYS, NATURAL_KEYS, FLAT_KEYS } from '../keys'
+import { useState } from 'react'
+import { SHARP_KEYS, NATURAL_KEYS, FLAT_KEYS, getKey } from '../keys'
 import type { KeyGroup } from '../keys'
 import { Staff } from './Staff'
 import { t } from '../i18n'
@@ -11,7 +12,6 @@ interface Props {
 }
 
 function KeyButton({ k, selected, onSelect, lang }: { k: KeyGroup; selected: boolean; onSelect: () => void; lang: Lang }) {
-  // 장조/단조 운지가 동일하므로 한 버튼에 두 이름을 함께 표시
   const major = lang === 'ko' ? k.majorKo : k.majorEn
   const minor = lang === 'ko' ? k.minorKo : k.minorEn
   return (
@@ -28,23 +28,41 @@ function KeyButton({ k, selected, onSelect, lang }: { k: KeyGroup; selected: boo
 }
 
 export function KeySelector({ selectedId, onSelect, lang }: Props) {
+  const [open, setOpen] = useState(false)
+  const selected = getKey(selectedId)
+  const selectedLabel = lang === 'ko'
+    ? `${selected.majorKo} · ${selected.minorKo}`
+    : `${selected.majorEn} · ${selected.minorEn}`
+
   const sections: { label: string; keys: KeyGroup[] }[] = [
     { label: t('naturalKeys', lang), keys: NATURAL_KEYS },
     { label: t('sharpKeys', lang), keys: SHARP_KEYS },
     { label: t('flatKeys', lang), keys: FLAT_KEYS },
   ]
+
+  function handleSelect(id: string) {
+    onSelect(id)
+    setOpen(false)
+  }
+
   return (
     <div className="key-selector">
-      {sections.map((sec) => (
-        <section key={sec.label} className="key-section">
-          <h3>{sec.label}</h3>
-          <div className="key-grid">
-            {sec.keys.map((k) => (
-              <KeyButton key={k.id} k={k} selected={k.id === selectedId} onSelect={() => onSelect(k.id)} lang={lang} />
-            ))}
-          </div>
-        </section>
-      ))}
+      <button className="key-summary" type="button" onClick={() => setOpen(!open)}>
+        <span>{selectedLabel}</span>
+        <span className={`key-chevron${open ? ' open' : ''}`}>&#x25BE;</span>
+      </button>
+      <div className={`key-list${open ? ' open' : ''}`}>
+        {sections.map((sec) => (
+          <section key={sec.label} className="key-section">
+            <h3>{sec.label}</h3>
+            <div className="key-grid">
+              {sec.keys.map((k) => (
+                <KeyButton key={k.id} k={k} selected={k.id === selectedId} onSelect={() => handleSelect(k.id)} lang={lang} />
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
     </div>
   )
 }
