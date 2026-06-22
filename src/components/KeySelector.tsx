@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { SHARP_KEYS, NATURAL_KEYS, FLAT_KEYS, getKey } from '../keys'
 import type { KeyGroup } from '../keys'
 import { Staff } from './Staff'
-import { t } from '../i18n'
 import type { Lang } from '../i18n'
 
 interface Props {
@@ -34,11 +33,7 @@ export function KeySelector({ selectedId, onSelect, lang }: Props) {
     ? `${selected.majorKo} · ${selected.minorKo}`
     : `${selected.majorEn} · ${selected.minorEn}`
 
-  const sections: { label: string; keys: KeyGroup[] }[] = [
-    { label: t('naturalKeys', lang), keys: NATURAL_KEYS },
-    { label: t('sharpKeys', lang), keys: SHARP_KEYS },
-    { label: t('flatKeys', lang), keys: FLAT_KEYS },
-  ]
+  const allKeys = [...NATURAL_KEYS, ...SHARP_KEYS, ...FLAT_KEYS]
 
   function handleSelect(id: string) {
     onSelect(id)
@@ -52,16 +47,11 @@ export function KeySelector({ selectedId, onSelect, lang }: Props) {
         <span className={`key-chevron${open ? ' open' : ''}`}>&#x25BE;</span>
       </button>
       <div className={`key-list${open ? ' open' : ''}`}>
-        {sections.map((sec) => (
-          <section key={sec.label} className="key-section">
-            <h3>{sec.label}</h3>
-            <div className="key-grid">
-              {sec.keys.map((k) => (
-                <KeyButton key={k.id} k={k} selected={k.id === selectedId} onSelect={() => handleSelect(k.id)} lang={lang} />
-              ))}
-            </div>
-          </section>
-        ))}
+        <div className="key-grid">
+          {allKeys.map((k) => (
+            <KeyButton key={k.id} k={k} selected={k.id === selectedId} onSelect={() => handleSelect(k.id)} lang={lang} />
+          ))}
+        </div>
       </div>
     </div>
   )
