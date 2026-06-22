@@ -2,6 +2,8 @@
   --gap: 12px;
   --pad: 16px; /* 최대 여백 16px */
   --border: #e2e2e2;
+  --accent: #2a6e5e;
+  --accent-light: rgba(42,110,94,0.15);
 }
 
 * { box-sizing: border-box; }
@@ -63,9 +65,9 @@ h3 { font-size: 12px; color: #666; margin: 0 0 6px; font-weight: 600; }
 }
 .pos-tab:hover { border-color: #b9b9b9; }
 .pos-tab.active {
-  background: #2f6fed;
+  background: var(--accent);
   color: #fff;
-  border-color: #2f6fed;
+  border-color: var(--accent);
 }
 
 /* === 1행 2컬럼 레이아웃 === */
@@ -110,7 +112,7 @@ h3 { font-size: 12px; color: #666; margin: 0 0 6px; font-weight: 600; }
   text-align: left;
 }
 .key-btn:hover { border-color: #b9b9b9; }
-.key-btn.selected { border-color: #2f6fed; box-shadow: 0 0 0 2px rgba(47,111,237,0.15); }
+.key-btn.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-light); }
 .key-staff { flex: 0 0 auto; width: 100px; height: 52px; }
 .key-names { display: flex; flex-direction: column; line-height: 1.1; }
 .key-names strong { font-size: 14px; }
